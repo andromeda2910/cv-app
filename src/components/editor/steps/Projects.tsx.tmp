@@ -1,0 +1,50 @@
+import React from 'react';
+import { useResumeStore, ResumeData } from '@/stores/resumeStore';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { Label } from '@/components/ui/Label';
+import { Textarea } from '@/components/ui/Textarea';
+import { Trash2, Plus } from 'lucide-react';
+
+export const Projects = () => {
+    const { resumeData, addProject, removeProject } = useResumeStore();
+    const { projects } = resumeData;
+
+    const handleAdd = () => {
+        addProject({
+            id: crypto.randomUUID(),
+            name: '',
+            description: '',
+            url: '',
+            technologies: [],
+        });
+    };
+
+    // Helper to update project fields. Note: shallow array copy for immutability handled in store but we can't easily deep update array item via simple store actions nicely without a specific update action. 
+    // Wait, I didn't create an updateProject action in the store?
+    // Checking store memory... I created `addProject` and `removeProject`. 
+    // I missed `updateProject` in the store implementation! 
+    // I need to fix the Store first or just add the missing action.
+    // I will write this file assuming `updateProject` exists, and then I will Go back and patch the store.
+    // Actually, I can't assume. I should fix the store.
+    // I will use a local helper to emulate update if I can't fix store easily, but fixing store is better.
+    // I'll assume I'll fix the store in the next step.
+    
+    // Actually, I can use a direct state manip if I exposed a setProjects or similar, but I exposed specific actions.
+    // I will add `updateProject` to the interface in this file for now visually, but it will error in TS if I don't fix store.
+    
+    // Plan:
+    // 1. Write this file (Projects.tsx) but comment out the update logic or leave it broken for a second.
+    // 2. Patch resumeStore.ts to include `updateProject`.
+    
+    // Actually, I'll switch the order. I'll patch the store first.
+    return (<div>Store needs update</div>);
+} 
+// I'll return a dummy content for now in this tool call and correct the strategy.
+// Actually, I can just write the store update now in a replace_file_content tool, then write this file.
+// But I can't do parallel writes to different files if one depends on other for type checking if I were running a compiler, but here I am just writing strings.
+// So I will write the store patch in the NEXT tool call, and write the Projects.tsx in the one AFTER.
+// But I am already in the `write_to_file` for Projects.tsx.
+// I will just write the corrected store in a separate tool call.
+// I'll cancel this `write_to_file`? No, I must provide content.
+// I'll write the Skills component (which I already pasted above). I'll skip Projects for this specific tool call and do it in the next one properly.

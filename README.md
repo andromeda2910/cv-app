@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CV Craft 🚀
 
-## Getting Started
+**CV Craft** is a modern, AI-powered career tool designed to help you build professional CVs and tailor-made cover letters in seconds. Built with speed, precision, and aesthetics in mind.
 
-First, run the development server:
+![CV Craft Logo](/public/favicon-brand.ico)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 📄 Smart CV Builder
+- **Multiple Templates**: Choose from professional templates like ATS-optimized and modern designs.
+- **Real-time Preview**: See your changes instantly as you type.
+- **Multilingual UI**: Fully supports **English** and **Bahasa Indonesia**.
+- **Data Persistence**: Automatically saves your progress to your browser's local storage.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 🤖 AI CV Reviewer
+- Powered by **Google Gemini AI**.
+- Analyzes your CV content and provides an impact score.
+- Highlights strengths and identifies actionable areas for improvement.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### ✉️ AI Cover Letter Generator
+- Generates professional cover letters based on your CV and a job description.
+- **Tone Control**: Choose from Professional, Confident, Formal, or Friendly.
+- **Dual Language Output**: Option to generate the letter in either **English** or **Indonesian**.
+- **PDF Download**: Export your cover letter as a high-quality PDF.
 
-## Learn More
+## 🛠️ Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
+- **AI Engine**: [Google Gemini AI SDK](https://ai.google.dev/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **PDF Generation**: [React-To-Print](https://github.com/gregnb/react-to-print)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Getting Started
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Prerequisites
 
-## Deploy on Vercel
+1.  **Node.js**: Ensure you have Node.js installed (v18+ recommended).
+2.  **API Key**: You'll need a Google Gemini API Key. Get one for free at [Google AI Studio](https://aistudio.google.com/app/apikey).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Installation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1.  **Clone the repository**:
+    ```bash
+    git clone [your-repo-url]
+    cd cv-app
+    ```
+
+2.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+3.  **Environment Setup**:
+    Create a `.env.local` file in the root directory and add your API key:
+    ```env
+    NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
+    ```
+
+4.  **Run the development server**:
+    ```bash
+    npm run dev
+    ```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to start building!
+
+## 📂 Project Structure
+
+- `src/app`: Next.js pages and layouts.
+- `src/components`: Reusable UI components (landing, header, features).
+- `src/stores`: Zustand state management (CV data, language).
+- `src/templates`: CV design templates.
+- `src/utils`: AI logic and helper functions.
+- `src/locales`: Translation files (EN/ID).
+
+## 📝 License
+
+This project is created for professional CV building and career acceleration. Feel free to customize and expand!
+
+---
+*Built with ❤️ by Rosse*
