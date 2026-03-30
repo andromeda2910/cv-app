@@ -184,7 +184,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Rosse - Email : damerosse94@gmail.com
+Email : damerosse94@gmail.com
 
 Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andromeda2910/cv-app)
 
@@ -214,7 +214,7 @@ Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andro
 [license-shield]: https://img.shields.io/github/license/andromeda2910/cv-app.svg?style=for-the-badge
 [license-url]: https://github.com/andromeda2910/cv-app/blob/master/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/rosse
+[linkedin-url]: https://linkedin.com/in/marydrosa
 [product-screenshot]: public/favicon-brand.ico
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
