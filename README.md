@@ -1,83 +1,67 @@
-# CV Craft 🚀
+# CVCraft 🛠️
 
-**CV Craft** is a modern, AI-powered career tool designed to help you build professional CVs and tailor-made cover letters in seconds. Built with speed, precision, and aesthetics in mind.
+**CVCraft** adalah builder CV modern berfokus pada privasi yang ditenagai oleh AI. Dibuat untuk membantu siapa pun membuat Resume standar ATS atau CV kreatif dalam hitungan menit, tanpa perlu akun dan tanpa data yang meninggalkan browser Anda (kecuali untuk pemrosesan AI).
 
-![CV Craft Logo](/public/favicon-brand.ico)
+---
 
-## ✨ Features
+## 💡 Mengapa CVCraft?
 
-### 📄 Smart CV Builder
-- **Multiple Templates**: Choose from professional templates like ATS-optimized and modern designs.
-- **Real-time Preview**: See your changes instantly as you type.
-- **Multilingual UI**: Fully supports **English** and **Bahasa Indonesia**.
-- **Data Persistence**: Automatically saves your progress to your browser's local storage.
+Berbeda dengan platform CV builder lain yang mengharuskan Anda mendaftar dan menyimpan data di server mereka, CVCraft menggunakan pendekatan **Privacy-First**:
+*   **No Database**: Data Anda disimpan sepenuhnya di `localStorage` browser Anda.
+*   **Offline-Ready**: Editor tetap berfungsi meski tanpa koneksi internet (fitur non-AI).
+*   **Instant Export**: Print langsung ke PDF dengan format A4 yang sudah terstandardisasi.
 
-### 🤖 AI CV Reviewer
-- Powered by **Google Gemini AI**.
-- Analyzes your CV content and provides an impact score.
-- Highlights strengths and identifies actionable areas for improvement.
+## ✨ Fitur Utama
 
-### ✉️ AI Cover Letter Generator
-- Generates professional cover letters based on your CV and a job description.
-- **Tone Control**: Choose from Professional, Confident, Formal, or Friendly.
-- **Dual Language Output**: Option to generate the letter in either **English** or **Indonesian**.
-- **PDF Download**: Export your cover letter as a high-quality PDF.
+### 🤖 AI-Powered Intelligence
+*   **AI CV Reviewer**: Mendapatkan feedback instan, skor dampak, serta saran perbaikan konten berdasarkan standar HR global.
+*   **AI Cover Letter**: Generate surat lamaran kerja yang personal berdasarkan data CV Anda dan deskripsi pekerjaan yang dituju.
+*   **Tone Control**: Sesuaikan gaya bahasa AI (Formal, Professional, Friendly, dll) dalam dua bahasa (ID/EN).
+
+### 🎨 Design & Customization
+*   **Real-time Preview**: Lihat perubahan format dan teks secara langsung.
+*   **Template Customizer**: Ubah font (Google Fonts), palet warna, dan spacing secara mendalam tanpa menyentuh CSS.
+*   **Bilingual Support**: Antarmuka dan konten mendukung penuh Bahasa Indonesia dan English.
+
+### 🗂️ CV Profiles Support
+*   Simpan beberapa versi CV sekaligus (misal: satu untuk *Software Engineer*, satu untuk *Product Manager*) dan ganti profil dengan satu klik.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
-- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
-- **State Management**: [Zustand](https://github.com/pmndrs/zustand)
-- **AI Engine**: [Google Gemini AI SDK](https://ai.google.dev/)
-- **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [Lucide React](https://lucide.dev/)
-- **PDF Generation**: [React-To-Print](https://github.com/gregnb/react-to-print)
+*   **Framework**: [Next.js 15+](https://nextjs.org/) (App Router)
+*   **Intelligence**: [Google Gemini Pro API](https://ai.google.dev/)
+*   **Styling**: Vanilla CSS & Tailwind CSS
+*   **State Management**: [Zustand](https://github.com/pmndrs/zustand) (with Persistence)
+*   **Animation**: [Framer Motion](https://www.framer.com/motion/)
+*   **Validation**: [Zod](https://zod.dev/)
 
-## 🚀 Getting Started
+## 🚀 Persiapan Lokal
 
-### Prerequisites
-
-1.  **Node.js**: Ensure you have Node.js installed (v18+ recommended).
-2.  **API Key**: You'll need a Google Gemini API Key. Get one for free at [Google AI Studio](https://aistudio.google.com/app/apikey).
-
-### Installation
-
-1.  **Clone the repository**:
+1.  **Clone & Install**
     ```bash
-    git clone [your-repo-url]
+    git clone [url-repo-anda]
     cd cv-app
-    ```
-
-2.  **Install dependencies**:
-    ```bash
     npm install
     ```
 
-3.  **Environment Setup**:
-    Create a `.env.local` file in the root directory and add your API key:
+2.  **API Key Setup**
+    Dapatkan Gemini API Key gratis di [Google AI Studio](https://aistudio.google.com/). Buat file `.env.local` di root folder:
     ```env
-    NEXT_PUBLIC_GEMINI_API_KEY=your_gemini_api_key_here
+    NEXT_PUBLIC_GEMINI_API_KEY=key_anda_disini
     ```
 
-4.  **Run the development server**:
+3.  **Run Development**
     ```bash
     npm run dev
     ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to start building!
+## 🔐 Keamanan & Privasi
 
-## 📂 Project Structure
+Aplikasi ini tidak memiliki backend. Semua data pribadi Anda (PII) disimpan di browser lokal menggunakan enkripsi standar web. Pemanggilan API Gemini dilakukan langsung dari sisi *client* menggunakan kunci API yang Anda sediakan (atau yang dikonfigurasi saat deployment).
 
-- `src/app`: Next.js pages and layouts.
-- `src/components`: Reusable UI components (landing, header, features).
-- `src/stores`: Zustand state management (CV data, language).
-- `src/templates`: CV design templates.
-- `src/utils`: AI logic and helper functions.
-- `src/locales`: Translation files (EN/ID).
+## 🚀 Deployment (Vercel)
 
-## 📝 License
-
-This project is created for professional CV building and career acceleration. Feel free to customize and expand!
+Aplikasi ini siap di-deploy ke Vercel dengan satu klik. Pastikan Anda menambahkan Environment Variable `NEXT_PUBLIC_GEMINI_API_KEY` di dashboard Vercel setelah proses import repository.
 
 ---
-*Built with ❤️ by Rosse*
+*Built with ❤️ for better careers.*
