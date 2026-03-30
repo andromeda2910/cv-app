@@ -184,7 +184,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Rosse - [@yourinterface](https://twitter.com/yourinterface) - email@example.com
+Rosse - Email : damerosse94@gmail.com
 
 Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andromeda2910/cv-app)
 
@@ -197,7 +197,6 @@ Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andro
 * [Google Gemini API](https://ai.google.dev/)
 * [Lucide React](https://lucide.dev/)
 * [Framer Motion](https://www.framer.com/motion/)
-* [Best-README-Template](https://github.com/othneildrew/Best-README-Template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
