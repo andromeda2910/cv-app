@@ -123,13 +123,110 @@ To get a local copy up and running follow these simple steps.
    npm run dev
    ```
 
-## 🔐 Keamanan & Privasi
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Aplikasi ini tidak memiliki backend. Semua data pribadi Anda (PII) disimpan di browser lokal menggunakan enkripsi standar web. Pemanggilan API Gemini dilakukan langsung dari sisi *client* menggunakan kunci API yang Anda sediakan (atau yang dikonfigurasi saat deployment).
 
-## 🚀 Deployment (Vercel)
+<!-- USAGE EXAMPLES -->
+## Usage
 
-Aplikasi ini siap di-deploy ke Vercel dengan satu klik. Pastikan Anda menambahkan Environment Variable `NEXT_PUBLIC_GEMINI_API_KEY` di dashboard Vercel setelah proses import repository.
+### AI CV Review
+Upload your existing CV or type it manually. Click the **AI Review** button to get a full audit of your resume, including ATS optimization tips and content improvements.
 
----
-*Built with ❤️ for better careers.*
+### Multi-Profile Support
+Use the **Profile Switcher** to save your current work as a "Profile". This allows you to experiment with different templates or tailor your CV to specific roles without losing your main data.
+
+### Custom Theme Engine
+Adjust theme variables like primary colors, font pairings, and layout spacing in real-time using the **Template Customizer**.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- ROADMAP -->
+## Roadmap
+
+- [x] Standard AI Review & Cover Letter
+- [x] Multi-profile support
+- [x] Bilingual Interface (ID/EN)
+- [ ] Direct export to LinkedIn format
+- [ ] More ATS-specialized templates
+- [ ] Offline PWA Support
+
+See the [open issues](https://github.com/andromeda2910/cv-app/issues) for a full list of proposed features (and known issues).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTRIBUTING -->
+## Contributing
+
+Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+
+If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
+Don't forget to give the project a star! Thanks again!
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- LICENSE -->
+## License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- CONTACT -->
+## Contact
+
+Rosse - Email : damerosse94@gmail.com
+Email : damerosse94@gmail.com
+
+Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andromeda2910/cv-app)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- ACKNOWLEDGMENTS -->
+## Acknowledgments
+
+* [Google Gemini API](https://ai.google.dev/)
+* [Lucide React](https://lucide.dev/)
+* [Framer Motion](https://www.framer.com/motion/)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/andromeda2910/cv-app.svg?style=for-the-badge
+[contributors-url]: https://github.com/andromeda2910/cv-app/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/andromeda2910/cv-app.svg?style=for-the-badge
+[forks-url]: https://github.com/andromeda2910/cv-app/network/members
+[stars-shield]: https://img.shields.io/github/stars/andromeda2910/cv-app.svg?style=for-the-badge
+[stars-url]: https://github.com/andromeda2910/cv-app/stargazers
+[issues-shield]: https://img.shields.io/github/issues/andromeda2910/cv-app.svg?style=for-the-badge
+[issues-url]: https://github.com/andromeda2910/cv-app/issues
+[license-shield]: https://img.shields.io/github/license/andromeda2910/cv-app.svg?style=for-the-badge
+[license-url]: https://github.com/andromeda2910/cv-app/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/rosse
+[linkedin-url]: https://linkedin.com/in/marydrosa
+[product-screenshot]: public/favicon-brand.ico
+[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
+[Next-url]: https://nextjs.org/
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+[TailwindCSS]: https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white
+[Tailwind-url]: https://tailwindcss.com/
+[Gemini-Badge]: https://img.shields.io/badge/Google_Gemini-4285F4?style=for-the-badge&logo=google&logoColor=white
+[Gemini-url]: https://ai.google.dev/
+[Zustand-Badge]: https://img.shields.io/badge/Zustand-443E38?style=for-the-badge&logo=zustand&logoColor=white
+[Zustand-url]: https://github.com/pmndrs/zustand
+[Lucide-Badge]: https://img.shields.io/badge/Lucide_React-FF0000?style=for-the-badge&logo=lucide&logoColor=white
+[Lucide-url]: https://lucide.dev/
