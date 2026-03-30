@@ -23,7 +23,7 @@ export const Education = () => {
         });
     };
 
-    const handleChange = (index: number, field: keyof ResumeData['education'][0], value: any) => {
+    const handleChange = (index: number, field: keyof ResumeData['education'][0], value: string) => {
         const item = { ...education[index], [field]: value };
         updateEducation(index, item);
     };

@@ -64,9 +64,9 @@ Instructions:
         const result = await model.generateContent(prompt);
         const responseText = result.response.text();
         return responseText.trim();
-    } catch (error: any) {
+    } catch (error: unknown) {
         console.error("Error generating cover letter:", error);
-        const errorMessage = error?.message || "Unknown error";
+        const errorMessage = error instanceof Error ? error.message : "Unknown error";
         throw new Error(`Failed to generate cover letter: ${errorMessage}`);
     }
 }

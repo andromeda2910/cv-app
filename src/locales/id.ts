@@ -9,6 +9,8 @@ const id: Translations = {
         switchTo: 'Ganti ke',
         english: 'Inggris',
         indonesian: 'Indonesia',
+        privacyNote: 'Hanya Penyimpanan Lokal',
+        privacyNoteTooltip: 'Data Anda disimpan secara lokal di browser Anda dan tidak pernah dikirim ke server kami.',
     },
 
     // Common

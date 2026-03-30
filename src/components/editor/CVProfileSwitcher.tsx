@@ -1,16 +1,18 @@
 import React from 'react';
-import { useResumeStore } from '@/stores/resumeStore';
+import { useResumeStore, ResumeData } from '@/stores/resumeStore';
 import { Button } from '@/components/ui/Button';
 import { User, Briefcase, GraduationCap, Code, FolderGit2, Plus, Edit2, Trash2 } from 'lucide-react';
+
+import { CVProfilesArraySchema } from '@/types/schemas';
 
 interface CVProfile {
   id: string;
   name: string;
   description: string;
-  resumeData: any;
+  resumeData: ResumeData;
   selectedTemplate: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string | Date;
+  updatedAt: string | Date;
 }
 
 export const CVProfileSwitcher = () => {
@@ -21,10 +23,21 @@ export const CVProfileSwitcher = () => {
   const [newProfileDescription, setNewProfileDescription] = React.useState('');
 
   React.useEffect(() => {
-    // Load profiles from localStorage
+    // Load profiles from localStorage with validation
     const savedProfiles = localStorage.getItem('cv-profiles');
     if (savedProfiles) {
-      setProfiles(JSON.parse(savedProfiles));
+      try {
+        const parsed = JSON.parse(savedProfiles);
+        const validated = CVProfilesArraySchema.safeParse(parsed);
+        if (validated.success) {
+          setProfiles(validated.data as CVProfile[]);
+        } else {
+          console.error('Invalid profiles data in localStorage:', validated.error);
+          // Optional: handle recovery or cleanup
+        }
+      } catch (error) {
+        console.error('Failed to parse profiles from localStorage:', error);
+      }
     }
   }, []);
 
@@ -199,7 +212,7 @@ export const CVProfileSwitcher = () => {
           <span>Currently editing: Active CV</span>
         </div>
         <div className="text-xs text-blue-600 mt-1">
-          Changes are auto-saved. Click "Update" on a profile to save current changes.
+          Changes are auto-saved. Click &quot;Update&quot; on a profile to save current changes.
         </div>
       </div>
     </div>

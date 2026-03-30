@@ -22,7 +22,7 @@ export const Projects = () => {
         });
     };
 
-    const handleChange = (index: number, field: keyof ResumeData['projects'][0], value: any) => {
+    const handleChange = (index: number, field: keyof ResumeData['projects'][0], value: string | string[]) => {
         const item = { ...projects[index], [field]: value };
         updateProject(index, item);
     };

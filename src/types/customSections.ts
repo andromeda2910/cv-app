@@ -36,7 +36,7 @@ export interface CustomSection {
   id: string;
   title: string;
   type: 'certifications' | 'languages' | 'awards' | 'publications' | 'custom';
-  items: any[];
+  items: (Certification | Language | Award | Publication | Record<string, unknown>)[];
   enabled: boolean;
   order: number;
 }

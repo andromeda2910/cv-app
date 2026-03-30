@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import {
@@ -35,7 +36,7 @@ export const LandingPage = ({ onStart, onCreateCoverLetter }: LandingPageProps) 
         <nav className="max-w-7xl mx-auto px-6 py-8 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-100 border border-blue-50">
-              <img src="/favicon-brand.ico" alt="CVCraft Icon" className="w-10 h-10 object-contain" />
+              <Image src="/favicon-brand.ico" alt="CVCraft Icon" width={40} height={40} className="object-contain" />
             </div>
             <span className="text-2xl font-bold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-gray-900 via-blue-900 to-gray-900">
               CVCraft
@@ -336,7 +337,7 @@ export const LandingPage = ({ onStart, onCreateCoverLetter }: LandingPageProps) 
           <div className="max-w-7xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row justify-between items-center gap-4 sm:gap-8">
             <div className="flex items-center gap-2">
               <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center border border-blue-50">
-                <img src="/favicon-brand.ico" alt="CVCraft Icon" className="w-6 h-6 object-contain" />
+                <Image src="/favicon-brand.ico" alt="CVCraft Icon" width={24} height={24} className="object-contain" />
               </div>
               <span className="font-bold text-gray-900">CVCraft</span>
             </div>

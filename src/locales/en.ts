@@ -7,6 +7,8 @@ const en = {
         switchTo: 'Switch to',
         english: 'English',
         indonesian: 'Indonesian',
+        privacyNote: 'Local Storage Only',
+        privacyNoteTooltip: 'Your data is stored locally in your browser and never sent to our servers.',
     },
 
     // Common

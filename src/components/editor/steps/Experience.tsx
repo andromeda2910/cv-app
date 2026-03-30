@@ -25,7 +25,7 @@ export const Experience = () => {
     });
   };
 
-  const handleChange = (index: number, field: keyof ResumeData['experience'][0], value: any) => {
+  const handleChange = (index: number, field: keyof ResumeData['experience'][0], value: string | boolean) => {
     const item = { ...experience[index], [field]: value };
     updateExperience(index, item);
   };

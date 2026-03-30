@@ -10,40 +10,10 @@ export const TemplateCustomizer = () => {
   const [selectedTheme, setSelectedTheme] = React.useState<TemplateTheme>(defaultThemes[0]);
   const [customTheme, setCustomTheme] = React.useState<TemplateTheme>(defaultThemes[0]);
 
-  React.useEffect(() => {
-    // Load saved theme from localStorage with validation (client-side only)
-    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
-      return;
-    }
-    
-    const savedTheme = localStorage.getItem('cv-theme');
-    if (savedTheme) {
-      try {
-        const themeData = JSON.parse(savedTheme);
-        if (isValidTheme(themeData)) {
-          const validatedTheme = validateTheme(themeData);
-          setSelectedTheme(validatedTheme);
-          setCustomTheme(validatedTheme);
-          applyTheme(validatedTheme);
-        } else {
-          console.warn('Invalid theme format in localStorage, using default');
-          localStorage.removeItem('cv-theme');
-          applyTheme(defaultThemes[0]);
-        }
-      } catch (error) {
-        console.warn('Failed to parse saved theme:', error);
-        localStorage.removeItem('cv-theme');
-        applyTheme(defaultThemes[0]);
-      }
-    } else {
-      applyTheme(defaultThemes[0]);
-    }
-  }, []);
-
   // Store previous theme for cleanup
   const previousThemeRef = React.useRef<TemplateTheme | null>(null);
 
-  const applyTheme = (theme: TemplateTheme) => {
+  const applyTheme = React.useCallback((theme: TemplateTheme) => {
     // Cleanup previous theme CSS variables
     if (previousThemeRef.current && typeof window !== 'undefined' && typeof document !== 'undefined') {
       const prevTheme = previousThemeRef.current;
@@ -79,21 +49,51 @@ export const TemplateCustomizer = () => {
     if (typeof window !== 'undefined' && typeof document !== 'undefined') {
       const root = document.documentElement;
       Object.entries(theme.colors).forEach(([key, value]) => {
-        root.style.setProperty(`--color-${key}`, value);
+        root.style.setProperty(`--color-${key}`, (value as string));
       });
       
       Object.entries(theme.fonts.size.heading).forEach(([key, value]) => {
-        root.style.setProperty(`--font-size-heading-${key}`, value);
+        root.style.setProperty(`--font-size-heading-${key}`, (value as string));
       });
       
       Object.entries(theme.fonts.size.body).forEach(([key, value]) => {
-        root.style.setProperty(`--font-size-body-${key}`, value);
+        root.style.setProperty(`--font-size-body-${key}`, (value as string));
       });
     }
 
     // Update previous theme reference
     previousThemeRef.current = theme;
-  };
+  }, []);
+
+  React.useEffect(() => {
+    // Load saved theme from localStorage with validation (client-side only)
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
+      return;
+    }
+    
+    const savedTheme = localStorage.getItem('cv-theme');
+    if (savedTheme) {
+      try {
+        const themeData = JSON.parse(savedTheme);
+        if (isValidTheme(themeData)) {
+          const validatedTheme = validateTheme(themeData);
+          setSelectedTheme(validatedTheme);
+          setCustomTheme(validatedTheme);
+          applyTheme(validatedTheme);
+        } else {
+          console.warn('Invalid theme format in localStorage, using default');
+          localStorage.removeItem('cv-theme');
+          applyTheme(defaultThemes[0]);
+        }
+      } catch (error) {
+        console.warn('Failed to parse saved theme:', error);
+        localStorage.removeItem('cv-theme');
+        applyTheme(defaultThemes[0]);
+      }
+    } else {
+      applyTheme(defaultThemes[0]);
+    }
+  }, [applyTheme]);
 
   const resetToDefault = () => {
     applyTheme(defaultThemes[0]);
@@ -102,10 +102,10 @@ export const TemplateCustomizer = () => {
   const updateCustomTheme = (path: string, value: string) => {
     const newTheme = { ...customTheme };
     const keys = path.split('.');
-    let current: any = newTheme;
+    let current: Record<string, unknown> = newTheme as Record<string, unknown>;
     
     for (let i = 0; i < keys.length - 1; i++) {
-      current = current[keys[i]];
+      current = current[keys[i]] as Record<string, unknown>;
     }
     
     current[keys[keys.length - 1]] = value;

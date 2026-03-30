@@ -17,6 +17,8 @@ const saveToLocalStorage = (data: ResumeData, template: string) => {
   }
 };
 
+import { ResumeDataSchema } from '@/types/schemas';
+
 const loadFromLocalStorage = () => {
   // Check if we're on the client side
   if (typeof window === 'undefined' || typeof localStorage === 'undefined') {
@@ -27,7 +29,20 @@ const loadFromLocalStorage = () => {
     const savedData = localStorage.getItem('cv-data');
     const savedTemplate = localStorage.getItem('selected-template');
 
-    let resumeData = savedData ? JSON.parse(savedData) : null;
+    let resumeData = null;
+    if (savedData) {
+      try {
+        const parsed = JSON.parse(savedData);
+        const result = ResumeDataSchema.safeParse(parsed);
+        if (result.success) {
+          resumeData = result.data as ResumeData;
+        } else {
+          console.warn('Invalid resume data in localStorage:', result.error);
+        }
+      } catch (e) {
+        console.warn('Failed to parse resume data:', e);
+      }
+    }
 
     // Ensure all properties exist (especially and newly added ones like coverLetterData)
     if (resumeData) {

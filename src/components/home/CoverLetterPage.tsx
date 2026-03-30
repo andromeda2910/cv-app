@@ -65,8 +65,8 @@ export const CoverLetterPage = ({ onBack }: CoverLetterPageProps) => {
             });
             setCoverLetterData({ generatedLetter: letter });
             setIsEditing(false);
-        } catch (err: any) {
-            setError(err.message || "Failed to generate cover letter");
+        } catch (err: unknown) {
+            setError(err instanceof Error ? err.message : "Failed to generate cover letter");
         } finally {
             setIsLoading(false);
         }

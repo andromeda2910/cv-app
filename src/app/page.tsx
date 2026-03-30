@@ -2,19 +2,18 @@
 
 import React, { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
-import { Download } from 'lucide-react';
 import { CvForm } from "@/components/editor/CvForm";
 import { useResumeStore } from "@/stores/resumeStore";
 import { useAutoSave } from "@/stores/resumeStore";
 import { useLanguageStore } from "@/stores/languageStore";
-import { TEMPLATE_MAP, TEMPLATE_LIST } from "@/templates";
+import { TEMPLATE_MAP } from "@/templates";
 import { LandingPage } from "@/components/home/LandingPage";
 import { ModeSelectionPage } from "@/components/home/ModeSelectionPage";
 import { UploadCVPage } from "@/components/home/UploadCVPage";
 import { CVReviewPage } from '@/components/home/CVReviewPage';
 import { CoverLetterPage } from '@/components/home/CoverLetterPage';
 import { Header } from "@/components/layout/Header";
-import { Button } from "@/components/ui/Button";
+// import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/lib/useTranslation";
 
 type AppView = 'landing' | 'modeSelection' | 'builder' | 'improveExisting' | 'cvReview' | 'coverLetter';

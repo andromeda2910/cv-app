@@ -321,7 +321,7 @@ const ScoreBar = ({ label, score }: { label: string; score: number }) => (
   </div>
 );
 
-const StatCard = ({ icon, title, value, color }: { icon: React.ReactNode; title: string; value: any; color: string }) => {
+const StatCard = ({ icon, title, value, color }: { icon: React.ReactNode; title: string; value: string | number | React.ReactNode; color: string }) => {
   const bgColor = {
     emerald: 'bg-emerald-50 border-emerald-200',
     blue: 'bg-blue-50 border-blue-200',

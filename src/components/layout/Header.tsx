@@ -1,7 +1,8 @@
 "use client";
 
 import React from 'react';
-import { Menu, Sparkles } from 'lucide-react';
+import Image from 'next/image';
+import { Menu, Shield } from 'lucide-react';
 import { useResumeStore } from '@/stores/resumeStore';
 import { useLanguageStore } from '@/stores/languageStore';
 import { useTranslation } from '@/lib/useTranslation';
@@ -57,7 +58,7 @@ export const Header = ({ onHomeClick, showHomeButton = true, onCreateCoverLetter
           disabled={!showHomeButton}
         >
           <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-lg shadow-blue-100 border border-blue-50">
-            <img src="/favicon-brand.ico" alt="CVCraft Icon" className="w-8 h-8 object-contain" />
+            <Image src="/favicon-brand.ico" alt="CVCraft Icon" width={32} height={32} className="object-contain" />
           </div>
           <span className="text-3xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-blue-900 to-gray-900">
             CVCraft
@@ -65,6 +66,16 @@ export const Header = ({ onHomeClick, showHomeButton = true, onCreateCoverLetter
         </button>
 
         <div className="flex items-center gap-3">
+          {/* Privacy Note */}
+          <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 bg-blue-50 text-blue-700 rounded-full text-xs font-medium border border-blue-100 group relative cursor-help">
+            <Shield className="w-3 h-3" />
+            <span>{t.header.privacyNote}</span>
+            <div className="absolute top-full right-0 mt-2 w-64 p-3 bg-gray-900 text-white rounded-xl text-xs font-normal opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity shadow-xl z-[60]">
+              <p>{t.header.privacyNoteTooltip}</p>
+              <div className="absolute -top-1 right-8 w-2 h-2 bg-gray-900 rotate-45" />
+            </div>
+          </div>
+
           <div className="hidden md:flex items-center gap-3">
             {resumeData.personalInfo.photo && (
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-300">
@@ -147,7 +158,6 @@ export const Header = ({ onHomeClick, showHomeButton = true, onCreateCoverLetter
                   </a>
                   <a href="#" className="block px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-50 hover:text-blue-600">{t.header.help}</a>
                 </div>
-
               )}
             </div>
           </div>
