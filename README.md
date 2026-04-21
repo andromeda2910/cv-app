@@ -66,7 +66,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://cv-craft-rosse.vercel.app/)
 
 **CVCraft** is designed to solve the trade-off between AI convenience and data privacy. Most online CV builders require you to upload your entire life history to their servers. CVCraft keeps everything in your browser's local storage.
 
@@ -214,7 +214,7 @@ Project Link: [https://github.com/andromeda2910/cv-app](https://github.com/andro
 [license-url]: https://github.com/andromeda2910/cv-app/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/marydrosa
-[product-screenshot]: public/favicon-brand.ico
+[product-screenshot]: public/preview-app.png
 [Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
 [Next-url]: https://nextjs.org/
 [React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
