@@ -157,7 +157,7 @@ export const ATSTemplate = () => {
                             <div key={idx}>
                                 <div className="flex justify-between items-baseline">
                                     <h3 className="font-bold text-base">{edu.degree || 'Degree'}</h3>
-                                    <span className="text-sm text-gray-600">{formatEducationPeriod(edu.startDate, edu.endDate, language)}</span>
+                                    <span className="text-sm text-slate-600">{formatEducationPeriod(edu.startDate, edu.endDate, language)}</span>
                                 </div>
                                 <div className="text-sm text-gray-700">
                                     {edu.institution || 'School'}
@@ -177,8 +177,29 @@ export const ATSTemplate = () => {
             {skills.length > 0 && (
                 <section className="mb-6">
                     <h2 className="text-lg font-bold uppercase tracking-wide border-b border-gray-400 pb-1 mb-3">{t.skills.title}</h2>
-                    <div className="text-sm text-gray-800">
-                        {skills.map(s => s.name).join(' · ')}
+                    <div className="text-sm text-gray-800 leading-relaxed">
+                        {skills.length <= 3 ? (
+                            // Vertical list format for 3 or fewer skills
+                            <ul className="list-disc list-outside ml-5 space-y-1">
+                                {skills.map((skill, idx) => (
+                                    <li key={idx} className="pl-2">
+                                        {skill.name}
+                                    </li>
+                                ))}
+                            </ul>
+                        ) : (
+                            // Inline format for more than 3 skills
+                            <div className="flex flex-wrap gap-x-1 gap-y-1 items-center">
+                                {skills.map((skill, idx) => (
+                                    <React.Fragment key={idx}>
+                                        <span>{skill.name}</span>
+                                        {idx < skills.length - 1 && (
+                                            <span className="text-slate-400 font-bold px-2" style={{ fontSize: '1.2rem' }}>·</span>
+                                        )}
+                                    </React.Fragment>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </section>
             )}

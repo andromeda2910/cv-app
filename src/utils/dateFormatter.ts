@@ -43,5 +43,5 @@ export const formatEducationPeriod = (startDate: string, endDate: string, langua
   const startYear = formatDate(startDate, 'year', language);
   const endYear = formatDate(endDate, 'year', language);
   
-  return `${startYear}-${endYear}`;
+  return `${startYear} - ${endYear}`;
 };
