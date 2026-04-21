@@ -66,7 +66,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][public/preview-app.png]](https://cv-craft-rosse.vercel.app)
 
 **CVCraft** is designed to solve the trade-off between AI convenience and data privacy. Most online CV builders require you to upload your entire life history to their servers. CVCraft keeps everything in your browser's local storage.
 
