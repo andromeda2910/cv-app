@@ -271,6 +271,43 @@ const id: Translations = {
             indonesian: 'Indonesia',
         }
     },
+
+    // Template Selector
+    templateSelector: {
+        chooseYourCvTemplate: 'Pilih Template CV Anda',
+        selectProfessionalTemplate: 'Pilih template profesional yang paling mewakili gaya Anda',
+        allTemplates: 'Semua template',
+        simple: 'Sederhana',
+        atsOptimized: 'Di-optimasi ATS',
+        modern: 'Modern',
+        creative: 'Kreatif',
+        preview: 'Pratinjau',
+        selected: 'Dipilih',
+        selectedTemplate: 'Template Dipilih',
+        useThisTemplate: 'Gunakan Template Ini',
+        notSureWhichToPick: 'Bingung memilih yang mana?',
+        standardProfessionalDesc: 'Sempurna untuk industri tradisional seperti keuangan, hukum, dan kesehatan',
+        atsOptimizedDesc: 'Terbaik untuk aplikasi korporat dan sistem penyaringan otomatis',
+        modernCreativeDesc: 'Ideal untuk bidang kreatif, startup, dan perusahaan teknologi',
+        templateNames: {
+            standardProfessional: 'Standar Profesional',
+            atsOptimized: 'Di-optimasi ATS',
+            modernCreative: 'Modern Kreatif',
+        },
+        templateDescriptions: {
+            standardProfessional: 'Tata letak yang bersih dan terorganisir dengan format tradisional.',
+            atsOptimized: 'Dirancang untuk Sistem Pelacakan Pelamar dengan format yang sederhana dan mudah dipindai.',
+            modernCreative: 'Desain kontemporer dengan warna-warna cerah dan tata letak sidebar.',
+        },
+        back: 'Kembali',
+    },
+
+    // Template Tags
+    templateTags: {
+        classic: 'Klasik',
+        atsFriendly: 'Ramah ATS',
+        modern: 'Modern',
+    },
 };
 
 export default id;

@@ -55,6 +55,11 @@ const loadFromLocalStorage = () => {
           ...(resumeData.coverLetterData || {})
         }
       };
+      
+      // Sort experiences by date (newest first)
+      if (resumeData.experience && resumeData.experience.length > 0) {
+        resumeData.experience = sortExperiences(resumeData.experience);
+      }
     }
 
     return {
@@ -65,6 +70,50 @@ const loadFromLocalStorage = () => {
     console.warn('Failed to load from localStorage:', error);
   }
   return { resumeData: null, selectedTemplate: null };
+};
+
+// Helper function to sort experiences by date (newest first)
+const sortExperiences = (experiences: ResumeData['experience']): ResumeData['experience'] => {
+  if (!experiences || experiences.length === 0) return [];
+  
+  return [...experiences].sort((a, b) => {
+    // Current jobs should always come first
+    if (a.current && !b.current) return -1;
+    if (!a.current && b.current) return 1;
+    
+    // If both are current or both are not current, sort by date
+    const getDateForSorting = (exp: ResumeData['experience'][0]) => {
+      if (exp.current) {
+        // For current jobs, use start date
+        return exp.startDate;
+      }
+      // For past jobs, use end date if available, otherwise start date
+      return exp.endDate || exp.startDate;
+    };
+    
+    const dateA = getDateForSorting(a);
+    const dateB = getDateForSorting(b);
+    
+    // Parse dates — supports both YYYY-MM (ISO, from <input type="month">) and legacy MM-YYYY
+    const parseDate = (dateStr: string) => {
+      // Empty date → treat as very old so incomplete entries sink to the bottom
+      if (!dateStr) return new Date(-8640000000000000);
+      const parts = dateStr.split('-');
+      if (parts.length < 2) return new Date(-8640000000000000);
+      // If first part is 4 digits → YYYY-MM format (from <input type="month">)
+      if (parts[0].length === 4) {
+        return new Date(parseInt(parts[0]), parseInt(parts[1]) - 1);
+      }
+      // Otherwise assume legacy MM-YYYY format
+      return new Date(parseInt(parts[1]), parseInt(parts[0]) - 1);
+    };
+    
+    const parsedDateA = parseDate(dateA);
+    const parsedDateB = parseDate(dateB);
+    
+    // Sort by date descending (newest first)
+    return parsedDateB.getTime() - parsedDateA.getTime();
+  });
 };
 
 export interface ResumeData {
@@ -127,10 +176,11 @@ export interface ResumeData {
 
 interface ResumeState {
   resumeData: ResumeData;
+  getSortedExperience: () => ResumeData['experience'];
   setPersonalInfo: (data: Partial<ResumeData['personalInfo']>) => void;
   addExperience: (experience: ResumeData['experience'][0]) => void;
-  updateExperience: (index: number, experience: ResumeData['experience'][0]) => void;
-  removeExperience: (index: number) => void;
+  updateExperience: (id: string, experience: ResumeData['experience'][0]) => void;
+  removeExperience: (id: string) => void;
   addEducation: (education: ResumeData['education'][0]) => void;
   updateEducation: (index: number, education: ResumeData['education'][0]) => void;
   removeEducation: (index: number) => void;
@@ -185,12 +235,19 @@ export const DEFAULT_RESUME_DATA: ResumeData = {
 
 
 
-export const useResumeStore = create<ResumeState>((set) => {
+export const useResumeStore = create<ResumeState>((set, get) => {
   // Load saved data on initialization
   const savedData = loadFromLocalStorage();
+  
+  // Ensure experiences are sorted on initial load
+  const initialResumeData = savedData?.resumeData || DEFAULT_RESUME_DATA;
+  if (initialResumeData.experience && initialResumeData.experience.length > 0) {
+    initialResumeData.experience = sortExperiences(initialResumeData.experience);
+  }
 
   return {
-    resumeData: savedData?.resumeData || DEFAULT_RESUME_DATA,
+    resumeData: initialResumeData,
+    getSortedExperience: () => sortExperiences(get().resumeData.experience),
     selectedTemplate: savedData?.selectedTemplate || 'modern',
     lastSaved: null,
     isSaving: false,
@@ -215,28 +272,35 @@ export const useResumeStore = create<ResumeState>((set) => {
         },
       })),
     addExperience: (experience) =>
-      set((state) => ({
-        resumeData: {
-          ...state.resumeData,
-          experience: [...state.resumeData.experience, experience],
-        },
-      })),
-    updateExperience: (index, experience) =>
       set((state) => {
-        const newExp = [...state.resumeData.experience];
-        newExp[index] = experience;
+        const updatedExperiences = [...state.resumeData.experience, experience];
+        const sortedExperiences = sortExperiences(updatedExperiences);
         return {
           resumeData: {
             ...state.resumeData,
-            experience: newExp,
+            experience: sortedExperiences,
+          },
+        };
+      }),
+    updateExperience: (id, experience) =>
+      set((state) => {
+        // Use id-based lookup to avoid stale-index bugs after re-sort
+        const newExp = state.resumeData.experience.map((exp) =>
+          exp.id === id ? experience : exp
+        );
+        const sortedExperiences = sortExperiences(newExp);
+        return {
+          resumeData: {
+            ...state.resumeData,
+            experience: sortedExperiences,
           }
         };
       }),
-    removeExperience: (index) =>
+    removeExperience: (id) =>
       set((state) => ({
         resumeData: {
           ...state.resumeData,
-          experience: state.resumeData.experience.filter((_, i) => i !== index),
+          experience: state.resumeData.experience.filter((exp) => exp.id !== id),
         },
       })),
     addEducation: (education) =>

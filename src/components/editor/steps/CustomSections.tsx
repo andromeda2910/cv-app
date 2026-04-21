@@ -247,12 +247,12 @@ export const CustomSections = () => {
                   <select
                     value={lang.proficiency}
                     onChange={(e) => updateLanguage(index, 'proficiency', e.target.value)}
-                    className="w-full h-14 px-3 py-2 text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full h-14 px-3 py-2 text-base text-gray-900 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 appearance-none cursor-pointer hover:bg-gray-50 transition-colors"
                   >
-                    <option value="Basic">{t.customSections.basic}</option>
-                    <option value="Intermediate">{t.customSections.intermediate}</option>
-                    <option value="Advanced">{t.customSections.advanced}</option>
-                    <option value="Native">{t.customSections.native}</option>
+                    <option value="Basic" className="text-gray-900 hover:bg-blue-50">{t.customSections.basic}</option>
+                    <option value="Intermediate" className="text-gray-900 hover:bg-blue-50">{t.customSections.intermediate}</option>
+                    <option value="Advanced" className="text-gray-900 hover:bg-blue-50">{t.customSections.advanced}</option>
+                    <option value="Native" className="text-gray-900 hover:bg-blue-50">{t.customSections.native}</option>
                   </select>
                 </div>
               </div>

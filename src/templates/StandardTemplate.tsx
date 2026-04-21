@@ -1,12 +1,41 @@
 import React from 'react';
 import { useResumeStore } from '@/stores/resumeStore';
 import { useTranslation } from '@/lib/useTranslation';
-import { MapPin, Mail, Phone, Link as LinkIcon, Linkedin, ExternalLink } from 'lucide-react';
+import { MapPin, Mail, Phone, Link as LinkIcon, Linkedin, ExternalLink, Award, Globe, Trophy, FileText } from 'lucide-react';
+import { formatDate, formatDateRange, formatEducationPeriod } from '@/utils/dateFormatter';
 
 export const StandardTemplate = () => {
     const { resumeData } = useResumeStore();
-    const { t } = useTranslation();
-    const { personalInfo, experience, education, skills, projects } = resumeData;
+    const { t, language } = useTranslation();
+    const { personalInfo, education, skills, projects, certifications = [], languages = [], awards = [], publications = [] } = resumeData;
+    
+    // Helper function to safely parse dates
+    const parseDate = (dateStr: string) => {
+      if (!dateStr) return 0;
+      const date = new Date(dateStr);
+      return isNaN(date.getTime()) ? 0 : date.getTime();
+    };
+
+    // Helper function to parse description into bullet points
+    const parseDescription = (description: string) => {
+      if (!description) return [];
+      
+      return description
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0)
+        .map(line => line.replace(/^[-*•]\s*/, '')); // Remove manual bullets
+    };
+
+    // Sort experiences by startDate (newest first) - simple and reliable
+    const experience = resumeData.experience
+      .filter(exp => exp.role && exp.role.trim() !== '' && exp.startDate)
+      .map(exp => ({
+        ...exp,
+        sortDate: parseDate(exp.startDate)
+      }))
+      .sort((a, b) => b.sortDate - a.sortDate)
+      .map(({ sortDate, ...exp }) => exp); // Remove temporary sortDate field
 
     return (
         <div className="bg-white text-gray-800 p-8 min-h-[1056px] w-[816px] mx-auto shadow-2xl print:shadow-none print:w-full print:min-h-0">
@@ -70,7 +99,7 @@ export const StandardTemplate = () => {
                 {personalInfo.summary && (
                     <section>
                         <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-3 pb-1 tracking-wide">{t.personalInfo.professionalSummary}</h2>
-                        <p className="text-gray-700 leading-relaxed text-lg whitespace-pre-wrap">
+                        <p className="text-gray-700 leading-relaxed text-base whitespace-pre-wrap">
                             {personalInfo.summary}
                         </p>
                     </section>
@@ -84,18 +113,22 @@ export const StandardTemplate = () => {
                             {experience.map((exp) => (
                                 <div key={exp.id} className="transition-transform duration-300 hover:scale-105">
                                     <div className="flex justify-between items-baseline mb-1">
-                                        <h3 className="font-bold text-gray-900 text-2xl">{exp.role}</h3>
+                                        <h3 className="font-bold text-gray-900 text-base">{exp.role}</h3>
                                         <span className="text-sm text-gray-500 italic whitespace-nowrap">
-                                            {exp.startDate} – {exp.current ? t.common.present : exp.endDate}
+                                            {formatDateRange(exp.startDate, exp.endDate, exp.current, language)}
                                         </span>
                                     </div>
                                     <div className="flex justify-between items-center text-sm mb-2">
                                         <span className="font-semibold text-gray-700">{exp.company}</span>
                                         <span className="text-gray-500 text-xs">{exp.location}</span>
                                     </div>
-                                    <p className="text-base text-gray-700 leading-relaxed whitespace-pre-wrap">
-                                        {exp.description}
-                                    </p>
+                                    <ul className="list-disc list-outside ml-5 space-y-2 text-base text-gray-700 leading-relaxed">
+                                        {parseDescription(exp.description).map((point, pointIdx) => (
+                                            <li key={pointIdx} className="pl-2">
+                                                {point}
+                                            </li>
+                                        ))}
+                                    </ul>
                                 </div>
                             ))}
                         </div>
@@ -139,16 +172,16 @@ export const StandardTemplate = () => {
                         <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-4 pb-1 tracking-wide">{t.education.title}</h2>
                         <div className="space-y-4">
                             {education.map((edu) => (
-                                <div key={edu.id} className="transition-transform duration-300 hover:scale-105">
+                                <div key={edu.id} className="transition-transform duration-300 hover:scale-105 leading-tight">
                                     <div className="flex justify-between items-baseline mb-1">
-                                        <h3 className="font-bold text-gray-900 text-2xl">{edu.institution}</h3>
+                                        <h3 className="font-semibold text-gray-900 text-base">{edu.institution}</h3>
                                         <span className="text-sm text-gray-500 italic whitespace-nowrap">
-                                            {edu.startDate} – {edu.endDate}
+                                            {formatEducationPeriod(edu.startDate, edu.endDate, language)}
                                         </span>
                                     </div>
-                                    <div className="flex justify-between text-sm">
+                                    <div className="flex justify-between text-sm mt-1">
                                         <div>
-                                            <span className="font-medium text-gray-700">{edu.degree}</span> {t.common.in} <span className="text-gray-700">{edu.fieldOfStudy}</span>
+                                            <span className="font-normal text-gray-700">{edu.degree}</span> {t.common.in} <span className="text-gray-700">{edu.fieldOfStudy}</span>
                                         </div>
                                         {edu.score && <span className="text-gray-500">{t.common.gpa}: {edu.score}</span>}
                                     </div>
@@ -167,6 +200,93 @@ export const StandardTemplate = () => {
                                 <span key={skill.id} className="bg-gray-100 text-gray-800 px-3 py-1 rounded-full text-xs font-medium border border-gray-200">
                                     {skill.name}
                                 </span>
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Certifications */}
+                {certifications.length > 0 && certifications.some(cert => cert.name || cert.issuer) && (
+                    <section>
+                        <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-4 pb-1 tracking-wide">
+                            {t.customSections?.certifications || 'Certifications'}
+                        </h2>
+                        <div className="space-y-3">
+                            {certifications.map((cert, idx) => (
+                                cert.name && (
+                                    <div key={idx} className="transition-transform duration-300 hover:scale-105">
+                                        <div className="text-gray-900 text-base font-semibold">{cert.name}</div>
+                                        {cert.issuer && <div className="text-gray-700 text-sm">{cert.issuer}</div>}
+                                        {cert.date && <div className="text-gray-500 text-xs">{cert.date}</div>}
+                                    </div>
+                                )
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Languages */}
+                {languages.length > 0 && languages.some(lang => lang.name) && (
+                    <section>
+                        <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-4 pb-1 tracking-wide">
+                            {t.customSections?.languages || 'Languages'}
+                        </h2>
+                        <div className="text-gray-700 text-base">
+                            {languages
+                                .filter(lang => lang.name)
+                                .map(lang => `${lang.name} - ${lang.proficiency}`)
+                                .join(' · ')}
+                        </div>
+                    </section>
+                )}
+
+                {/* Awards */}
+                {awards.length > 0 && awards.some(award => award.title || award.issuer) && (
+                    <section>
+                        <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-4 pb-1 tracking-wide">
+                            {t.customSections?.awards || 'Awards'}
+                        </h2>
+                        <div className="space-y-3">
+                            {awards.map((award, idx) => (
+                                (award.title || award.issuer) && (
+                                    <div key={idx} className="transition-transform duration-300 hover:scale-105">
+                                        <div className="text-gray-900 text-base font-semibold">{award.title || 'Award Title'}</div>
+                                        {award.issuer && <div className="text-gray-700 text-sm">{award.issuer}</div>}
+                                        {award.date && <div className="text-gray-500 text-xs">{award.date}</div>}
+                                        {award.description && (
+                                            <p className="text-gray-700 text-base leading-relaxed mt-2">{award.description}</p>
+                                        )}
+                                    </div>
+                                )
+                            ))}
+                        </div>
+                    </section>
+                )}
+
+                {/* Publications */}
+                {publications.length > 0 && publications.some(pub => pub.title || pub.authors) && (
+                    <section>
+                        <h2 className="text-lg font-bold uppercase border-b border-gray-300 mb-4 pb-1 tracking-wide">
+                            {t.customSections?.publications || 'Publications'}
+                        </h2>
+                        <div className="space-y-3">
+                            {publications.map((pub, idx) => (
+                                (pub.title || pub.authors) && (
+                                    <div key={idx} className="transition-transform duration-300 hover:scale-105">
+                                        <div className="text-gray-900 text-base font-semibold">{pub.title || 'Publication Title'}</div>
+                                        {pub.authors && <div className="text-gray-700 text-sm">{pub.authors}</div>}
+                                        {(pub.publisher || pub.date) && (
+                                            <div className="text-gray-500 text-xs">
+                                                {pub.publisher && `${pub.publisher}`}
+                                                {pub.publisher && pub.date && ' | '}
+                                                {pub.date}
+                                            </div>
+                                        )}
+                                        {pub.description && (
+                                            <p className="text-gray-700 text-base leading-relaxed mt-2">{pub.description}</p>
+                                        )}
+                                    </div>
+                                )
                             ))}
                         </div>
                     </section>

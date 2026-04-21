@@ -3,6 +3,7 @@ import { useResumeStore, ResumeData } from '@/stores/resumeStore';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Label } from '@/components/ui/Label';
+import { MonthPicker } from '@/components/ui/MonthPicker';
 import { Trash2, Plus } from 'lucide-react';
 import { useTranslation } from '@/lib/useTranslation';
 
@@ -81,21 +82,17 @@ export const Education = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label>{t.education.startDate}</Label>
-                                <Input
-                                    type="month"
+                                <MonthPicker
                                     value={edu.startDate}
-                                    onChange={(e) => handleChange(index, 'startDate', e.target.value)}
-                                    placeholder="MM-YYYY"
+                                    onChange={(value) => handleChange(index, 'startDate', value)}
                                 />
                                 <p className="text-xs text-gray-500">{t.education.dateFormat.replace('{example}', '09-2020')}</p>
                             </div>
                             <div className="space-y-2">
                                 <Label>{t.education.endDate}</Label>
-                                <Input
-                                    type="month"
+                                <MonthPicker
                                     value={edu.endDate}
-                                    onChange={(e) => handleChange(index, 'endDate', e.target.value)}
-                                    placeholder="MM-YYYY"
+                                    onChange={(value) => handleChange(index, 'endDate', value)}
                                 />
                                 <p className="text-xs text-gray-500">{t.education.dateFormat.replace('{example}', '06-2024')}</p>
                             </div>

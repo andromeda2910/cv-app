@@ -177,7 +177,7 @@ export const CvForm = () => {
 
         <Button
           onClick={currentStep === steps.length - 1 ? handlePrint : nextStep}
-          disabled={currentStep === steps.length - 1}
+          disabled={currentStep === steps.length - 1 && !resumeData.personalInfo.fullName?.trim()}
           className="h-11 px-6 rounded-full font-semibold text-white bg-gradient-to-r from-blue-600 via-indigo-600 to-fuchsia-600 shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-fuchsia-500/20 active:scale-[0.99] transition"
         >
           {currentStep === steps.length - 1 ? (

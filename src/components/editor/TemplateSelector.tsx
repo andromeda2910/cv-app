@@ -3,17 +3,19 @@ import { useResumeStore } from '@/stores/resumeStore';
 import { TEMPLATE_LIST, TEMPLATE_MAP } from '@/templates';
 import { Button } from '@/components/ui/Button';
 import { Eye, Download, HelpCircle } from 'lucide-react';
+import { useTranslation } from '@/lib/useTranslation';
 
 export const TemplateSelector = () => {
   const { selectedTemplate, setSelectedTemplate } = useResumeStore();
   const [selectedCategory, setSelectedCategory] = React.useState('all');
+  const { t } = useTranslation();
 
   const categories = [
-    { id: 'all', label: 'All templates' },
-    { id: 'simple', label: 'Simple' },
-    { id: 'ats', label: 'ATS Optimized' },
-    { id: 'modern', label: 'Modern' },
-    { id: 'creative', label: 'Creative' }
+    { id: 'all', label: t.templateSelector.allTemplates },
+    { id: 'simple', label: t.templateSelector.simple },
+    { id: 'ats', label: t.templateSelector.atsOptimized },
+    { id: 'modern', label: t.templateSelector.modern },
+    { id: 'creative', label: t.templateSelector.creative }
   ];
 
   const filteredTemplates = TEMPLATE_LIST.filter(template => {
@@ -31,8 +33,8 @@ export const TemplateSelector = () => {
       {/* Header with Progress Indicator */}
       <div className="flex justify-between items-start mb-8">
         <div className="text-left">
-          <h2 className="text-3xl font-bold text-gray-900 mb-2">Choose Your CV Template</h2>
-          <p className="text-gray-600">Select a professional template that best represents your style</p>
+          <h2 className="text-3xl font-bold text-gray-900 mb-2">{t.templateSelector.chooseYourCvTemplate}</h2>
+          <p className="text-gray-600">{t.templateSelector.selectProfessionalTemplate}</p>
         </div>
       </div>
 
@@ -92,7 +94,7 @@ export const TemplateSelector = () => {
                         className="flex-1 p-3 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg hover:bg-white transition-colors flex items-center justify-center gap-2"
                       >
                         <Eye className="w-4 h-4 text-gray-700" />
-                        <span className="text-sm font-medium text-gray-700">Preview</span>
+                        <span className="text-sm font-medium text-gray-700">{t.templateSelector.preview}</span>
                       </button>
                       <button
                         onClick={(e) => {
@@ -109,26 +111,34 @@ export const TemplateSelector = () => {
                   {isSelected && (
                     <div className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-2 rounded-full text-sm font-semibold shadow-lg flex items-center gap-2">
                       <div className="w-2 h-2 bg-white rounded-full"></div>
-                      Selected
+                      {t.templateSelector.selected}
                     </div>
                   )}
                 </div>
 
                 {/* Template Info */}
                 <div className="p-6">
-                  <h3 className="text-lg font-bold text-gray-900 mb-2">{template.name}</h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">{template.description}</p>
+                  <h3 className="text-lg font-bold text-gray-900 mb-2">
+                    {template.id === 'standard' && t.templateSelector.templateNames.standardProfessional}
+                    {template.id === 'ats' && t.templateSelector.templateNames.atsOptimized}
+                    {template.id === 'modern' && t.templateSelector.templateNames.modernCreative}
+                  </h3>
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {template.id === 'standard' && t.templateSelector.templateDescriptions.standardProfessional}
+                    {template.id === 'ats' && t.templateSelector.templateDescriptions.atsOptimized}
+                    {template.id === 'modern' && t.templateSelector.templateDescriptions.modernCreative}
+                  </p>
                   
                   {/* Template Tags */}
                   <div className="flex flex-wrap gap-2 mb-4">
                     {template.id === 'ats' && (
-                      <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">ATS Friendly</span>
+                      <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">{t.templateTags.atsFriendly}</span>
                     )}
                     {template.id === 'modern' && (
-                      <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">Modern</span>
+                      <span className="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">{t.templateTags.modern}</span>
                     )}
                     {template.id === 'standard' && (
-                      <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Classic</span>
+                      <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">{t.templateTags.classic}</span>
                     )}
                   </div>
 
@@ -145,10 +155,10 @@ export const TemplateSelector = () => {
                     {isSelected ? (
                       <>
                         <div className="w-2 h-2 bg-white rounded-full mr-2"></div>
-                        Selected Template
+                        {t.templateSelector.selectedTemplate}
                       </>
                     ) : (
-                      'Use This Template'
+                      t.templateSelector.useThisTemplate
                     )}
                   </Button>
                 </div>
@@ -165,11 +175,11 @@ export const TemplateSelector = () => {
             <HelpCircle className="w-6 h-6 text-blue-600" />
           </div>
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Not sure which one to pick?</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">{t.templateSelector.notSureWhichToPick}</h3>
             <div className="space-y-2 text-gray-600 mb-4">
-              <p>• <strong>Standard Professional:</strong> Perfect for traditional industries like finance, law, and healthcare</p>
-              <p>• <strong>ATS Optimized:</strong> Best for corporate applications and automated screening systems</p>
-              <p>• <strong>Modern Creative:</strong> Ideal for creative fields, startups, and tech companies</p>
+              <p>• <strong>Standard Professional:</strong> {t.templateSelector.standardProfessionalDesc}</p>
+              <p>• <strong>ATS Optimized:</strong> {t.templateSelector.atsOptimizedDesc}</p>
+              <p>• <strong>Modern Creative:</strong> {t.templateSelector.modernCreativeDesc}</p>
             </div>
           </div>
         </div>
@@ -181,7 +191,7 @@ export const TemplateSelector = () => {
           variant="ghost"
           className="px-6 py-3 text-gray-600 hover:text-gray-900"
         >
-          ← Back
+          {t.templateSelector.back}
         </Button>
       </div>
     </div>

@@ -1,12 +1,42 @@
 import React from 'react';
 import { useResumeStore } from '@/stores/resumeStore';
 import { useTranslation } from '@/lib/useTranslation';
-import { Mail, Phone, MapPin, Globe, Linkedin } from 'lucide-react';
+import { Mail, Phone, MapPin, Globe, Linkedin, Award, Trophy, FileText } from 'lucide-react';
+import { formatDate, formatDateRange, formatEducationPeriod } from '@/utils/dateFormatter';
 
 export const ModernTemplate = () => {
     const { resumeData } = useResumeStore();
-    const { t } = useTranslation();
-    const { personalInfo, experience, education, skills, projects } = resumeData;
+    const { t, language } = useTranslation();
+    const { personalInfo, education, skills, projects, certifications = [], languages = [], awards = [], publications = [] } = resumeData;
+    
+    // Helper function to safely parse dates
+    const parseDate = (dateStr: string) => {
+      if (!dateStr) return 0;
+      const date = new Date(dateStr);
+      return isNaN(date.getTime()) ? 0 : date.getTime();
+    };
+
+    // Helper function to parse description into bullet points
+    const parseDescription = (description: string) => {
+      if (!description) return [];
+      
+      return description
+        .split('\n')
+        .map(line => line.trim())
+        .filter(line => line.length > 0)
+        .map(line => line.replace(/^[-*•]\s*/, '')); // Remove manual bullets
+    };
+
+    // Sort experiences by startDate (newest first) - simple and reliable
+    const experience = resumeData.experience
+      .filter(exp => exp.role && exp.role.trim() !== '' && exp.startDate)
+      .map(exp => ({
+        ...exp,
+        sortDate: parseDate(exp.startDate)
+      }))
+      .sort((a, b) => b.sortDate - a.sortDate)
+      .map(({ sortDate, ...exp }) => exp); // Remove temporary sortDate field
+
 
     const primary = 'var(--color-primary, #2563eb)';
     const secondary = 'var(--color-secondary, #4f46e5)';
@@ -105,18 +135,22 @@ export const ModernTemplate = () => {
                                 {experience.map((exp, idx) => (
                                     <div key={idx}>
                                         <div className="flex justify-between items-start mb-1">
-                                            <h3 className="font-bold text-base text-gray-900">{exp.role || 'Role'}</h3>
+                                            <h3 className="font-bold text-sm text-gray-900">{exp.role || 'Role'}</h3>
                                             <span className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded">
-                                                {exp.startDate} - {exp.current ? t.common.present : exp.endDate}
+                                                {formatDateRange(exp.startDate, exp.endDate, exp.current, language)}
                                             </span>
                                         </div>
                                         <div className="text-sm font-semibold mb-2" style={{ color: primary }}>
                                             {exp.company || 'Company'} {exp.location && `• ${exp.location}`}
                                         </div>
                                         {exp.description && (
-                                            <div className="text-sm text-gray-700 leading-relaxed whitespace-pre-line">
-                                                {exp.description}
-                                            </div>
+                                            <ul className="list-disc list-outside ml-5 space-y-1 text-sm text-gray-700 leading-relaxed">
+                                                {parseDescription(exp.description).map((point, pointIdx) => (
+                                                    <li key={pointIdx} className="pl-2">
+                                                        {point}
+                                                    </li>
+                                                ))}
+                                            </ul>
                                         )}
                                     </div>
                                 ))}
@@ -166,12 +200,103 @@ export const ModernTemplate = () => {
                                     <div key={idx}>
                                         <div className="flex justify-between items-start">
                                             <h3 className="font-bold text-base text-gray-900">{edu.degree || 'Degree'}</h3>
-                                            <span className="text-xs text-gray-500">{edu.endDate || 'Year'}</span>
+                                            <span className="text-xs text-gray-500">{formatEducationPeriod(edu.startDate, edu.endDate, language)}</span>
                                         </div>
                                         <div className="text-sm font-semibold" style={{ color: primary }}>
                                             {edu.institution || 'School'}
                                         </div>
+                                        {edu.score && (
+                                            <div className="text-xs text-gray-600 mt-1">
+                                                {t.common.gpa}: {edu.score}
+                                            </div>
+                                        )}
                                     </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Certifications */}
+                    {certifications.length > 0 && certifications.some(cert => cert.name || cert.issuer) && (
+                        <section className="mb-8">
+                            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2" style={{ color: primary, borderColor: primary }}>
+                                {t.customSections?.certifications || 'Certifications'}
+                            </h2>
+                            <div className="space-y-2">
+                                {certifications.map((cert, idx) => (
+                                    cert.name && (
+                                        <div key={idx} className="text-sm text-gray-800">
+                                            <span className="font-semibold">{cert.name}</span>
+                                            {cert.issuer && <span className="ml-2">- {cert.issuer}</span>}
+                                            {cert.date && <span className="ml-2 text-gray-600">({cert.date})</span>}
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Languages */}
+                    {languages.length > 0 && languages.some(lang => lang.name) && (
+                        <section className="mb-8">
+                            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2" style={{ color: primary, borderColor: primary }}>
+                                {t.customSections?.languages || 'Languages'}
+                            </h2>
+                            <div className="text-sm text-gray-800">
+                                {languages
+                                    .filter(lang => lang.name)
+                                    .map(lang => `${lang.name} - ${lang.proficiency}`)
+                                    .join(' · ')}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Awards */}
+                    {awards.length > 0 && awards.some(award => award.title || award.issuer) && (
+                        <section className="mb-8">
+                            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2" style={{ color: primary, borderColor: primary }}>
+                                {t.customSections?.awards || 'Awards'}
+                            </h2>
+                            <div className="space-y-2">
+                                {awards.map((award, idx) => (
+                                    (award.title || award.issuer) && (
+                                        <div key={idx}>
+                                            <div className="text-sm text-gray-800">
+                                                <span className="font-semibold">{award.title || 'Award Title'}</span>
+                                                {award.issuer && <span className="ml-2">- {award.issuer}</span>}
+                                                {award.date && <span className="ml-2 text-gray-600">({award.date})</span>}
+                                            </div>
+                                            {award.description && (
+                                                <p className="text-sm text-gray-700 mt-1 ml-5">{award.description}</p>
+                                            )}
+                                        </div>
+                                    )
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Publications */}
+                    {publications.length > 0 && publications.some(pub => pub.title || pub.authors) && (
+                        <section className="mb-8">
+                            <h2 className="text-xl font-bold mb-3 pb-2 border-b-2" style={{ color: primary, borderColor: primary }}>
+                                {t.customSections?.publications || 'Publications'}
+                            </h2>
+                            <div className="space-y-2">
+                                {publications.map((pub, idx) => (
+                                    (pub.title || pub.authors) && (
+                                        <div key={idx}>
+                                            <div className="text-sm text-gray-800">
+                                                <span className="font-semibold">{pub.title || 'Publication Title'}</span>
+                                                {pub.authors && <span className="ml-2">- {pub.authors}</span>}
+                                                {pub.publisher && <span className="ml-2 text-gray-600">({pub.publisher})</span>}
+                                                {pub.date && <span className="ml-2 text-gray-600">{pub.date}</span>}
+                                            </div>
+                                            {pub.description && (
+                                                <p className="text-sm text-gray-700 mt-1 ml-5">{pub.description}</p>
+                                            )}
+                                        </div>
+                                    )
                                 ))}
                             </div>
                         </section>

@@ -30,4 +30,8 @@ body {
   .cv-preview-bg {
     background: none !important;
   }
+  
+  .break-inside-avoid {
+    break-inside: avoid;
+  }
 }

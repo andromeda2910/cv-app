@@ -269,6 +269,43 @@ const en = {
             indonesian: 'Indonesian',
         }
     },
+
+    // Template Selector
+    templateSelector: {
+        chooseYourCvTemplate: 'Choose Your CV Template',
+        selectProfessionalTemplate: 'Select a professional template that best represents your style',
+        allTemplates: 'All templates',
+        simple: 'Simple',
+        atsOptimized: 'ATS Optimized',
+        modern: 'Modern',
+        creative: 'Creative',
+        preview: 'Preview',
+        selected: 'Selected',
+        selectedTemplate: 'Selected Template',
+        useThisTemplate: 'Use This Template',
+        notSureWhichToPick: 'Not sure which one to pick?',
+        standardProfessionalDesc: 'Perfect for traditional industries like finance, law, and healthcare',
+        atsOptimizedDesc: 'Best for corporate applications and automated screening systems',
+        modernCreativeDesc: 'Ideal for creative fields, startups, and tech companies',
+        templateNames: {
+            standardProfessional: 'Standard Professional',
+            atsOptimized: 'ATS Optimized',
+            modernCreative: 'Modern Creative',
+        },
+        templateDescriptions: {
+            standardProfessional: 'Clean and organized layout with traditional formatting.',
+            atsOptimized: 'Designed for Applicant Tracking Systems with simple, scannable formatting.',
+            modernCreative: 'Contemporary design with vibrant colors and sidebar layout.',
+        },
+        back: 'Back',
+    },
+
+    // Template Tags
+    templateTags: {
+        classic: 'Classic',
+        atsFriendly: 'ATS Friendly',
+        modern: 'Modern',
+    },
 };
 
 export type Translations = typeof en;
