@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Upload, FileText, ArrowRight, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
+import { useTranslation } from '@/lib/useTranslation';
 
 interface UploadCVPageProps {
   onUploadComplete: (rawText: string) => void;
@@ -11,6 +12,7 @@ interface UploadCVPageProps {
 }
 
 export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) => {
+  const { t } = useTranslation();
   const [isDragging, setIsDragging] = React.useState(false);
   const [fileName, setFileName] = React.useState<string>('');
   const [error, setError] = React.useState<string>('');
@@ -23,7 +25,7 @@ export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) =>
 
     // Accept PDF and text files
     if (!file.type.match('application/pdf|text/plain|text/.*')) {
-      setError('Please upload a PDF or text file');
+      setError(t.uploadCv.errors.invalidFile);
       return;
     }
 
@@ -47,7 +49,7 @@ export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) =>
 
       onUploadComplete(text);
     } catch {
-      setError('Failed to read CV. Please make sure the file is readable.');
+      setError(t.uploadCv.errors.failedToRead);
       setIsProcessing(false);
     }
   };
@@ -143,8 +145,8 @@ export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) =>
         >
           {/* Header */}
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Upload Your CV</h1>
-            <p className="text-gray-600">Upload your existing CV to get started. We&apos;ll extract the information and you can edit it.</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t.uploadCv.title}</h1>
+            <p className="text-gray-600">{t.uploadCv.description}</p>
           </div>
 
           {/* Upload Area */}
@@ -170,19 +172,19 @@ export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) =>
             {!isProcessing && !fileName ? (
               <>
                 <Upload className="w-12 h-12 text-emerald-600 mx-auto mb-3" />
-                <p className="font-semibold text-gray-900 mb-1">Drag and drop your CV here</p>
-                <p className="text-sm text-gray-500">or click to browse (PDF, TXT, DOC, DOCX)</p>
+                <p className="font-semibold text-gray-900 mb-1">{t.uploadCv.dragAndDrop}</p>
+                <p className="text-sm text-gray-500">{t.uploadCv.orClickToBrowse}</p>
               </>
             ) : isProcessing ? (
               <>
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600 mx-auto mb-3" />
-                <p className="font-semibold text-gray-900">Processing your CV...</p>
-                <p className="text-sm text-gray-500 mt-1">Extracting information</p>
+                <p className="font-semibold text-gray-900">{t.uploadCv.processing}</p>
+                <p className="text-sm text-gray-500 mt-1">{t.uploadCv.extractingInfo}</p>
               </>
             ) : (
               <>
                 <FileText className="w-12 h-12 text-emerald-600 mx-auto mb-3" />
-                <p className="font-semibold text-gray-900 mb-1">File uploaded</p>
+                <p className="font-semibold text-gray-900 mb-1">{t.uploadCv.fileUploaded}</p>
                 <p className="text-sm text-gray-500">{fileName}</p>
               </>
             )}
@@ -203,26 +205,25 @@ export const UploadCVPage = ({ onUploadComplete, onBack }: UploadCVPageProps) =>
           {/* Info */}
           <div className="mt-6 p-4 bg-emerald-50 border border-emerald-200 rounded-lg">
             <p className="text-sm text-emerald-900">
-              💡 <strong>Tip:</strong> For best results, upload a well-formatted CV. We&apos;ll extract the key information automatically.
+              💡 <strong>Tip:</strong> {t.uploadCv.tip}
             </p>
           </div>
 
           {/* Actions */}
           <div className="flex gap-3 mt-8">
-            <Button
-              variant="outline"
+            <button
               onClick={onBack}
               disabled={isProcessing}
-              className="flex-1"
+              className="flex-1 px-4 py-2 text-sm text-gray-600 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-200 border border-gray-200 rounded-lg hover:bg-gray-50"
             >
-              Back
-            </Button>
+              {t.common.back}
+            </button>
             {fileName && !isProcessing && (
               <Button
                 onClick={() => onUploadComplete(uploadedText)}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700"
               >
-                Continue to Editor
+                {t.uploadCv.continueToEditor}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             )}

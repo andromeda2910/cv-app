@@ -300,6 +300,23 @@ const en = {
         back: 'Back',
     },
 
+    // Upload CV Page
+    uploadCv: {
+        title: 'Upload Your CV',
+        description: 'Upload your existing CV to get started. We&apos;ll extract the information and you can edit it.',
+        dragAndDrop: 'Drag and drop your CV here',
+        orClickToBrowse: 'or click to browse (PDF, TXT, DOC, DOCX)',
+        processing: 'Processing your CV...',
+        extractingInfo: 'Extracting information',
+        fileUploaded: 'File uploaded',
+        tip: 'Tip: For best results, upload a well-formatted CV. We&apos;ll extract the key information automatically.',
+        continueToEditor: 'Continue to Editor',
+        errors: {
+            invalidFile: 'Please upload a PDF or text file',
+            failedToRead: 'Failed to read CV. Please make sure the file is readable.',
+        },
+    },
+
     // Template Tags
     templateTags: {
         classic: 'Classic',

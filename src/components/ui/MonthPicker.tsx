@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from '@/lib/useTranslation';
+import { ChevronDown } from 'lucide-react';
 
 interface MonthPickerProps {
   value: string;
@@ -50,9 +51,11 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
 
   const { year, month } = parseValue(value);
   
-  // Generate year options (current year ± 10 years)
+  // Generate year options from 1970 to current year + 10 in descending order
   const currentYear = new Date().getFullYear();
-  const years = Array.from({ length: 21 }, (_, i) => currentYear - 10 + i);
+  const startYear = 1970;
+  const endYear = currentYear + 10;
+  const years = Array.from({ length: endYear - startYear + 1 }, (_, i) => endYear - i);
 
   const handleYearChange = (newYear: string) => {
     const newMonth = String(month + 1).padStart(2, '0');
@@ -62,6 +65,27 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
   const handleMonthChange = (newMonth: string) => {
     const monthNum = String(parseInt(newMonth) + 1).padStart(2, '0');
     onChange(`${year}-${monthNum}`);
+  };
+
+  // Custom dropdown state
+  const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
+  const yearDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (yearDropdownRef.current && !yearDropdownRef.current.contains(e.target as Node)) {
+        setYearDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+
+  const handleYearSelect = (selectedYear: number) => {
+    const newMonth = String(month + 1).padStart(2, '0');
+    onChange(`${selectedYear}-${newMonth}`);
+    setYearDropdownOpen(false);
   };
 
   return (
@@ -80,19 +104,36 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         ))}
       </select>
       
-      <select
-        value={year}
-        onChange={(e) => handleYearChange(e.target.value)}
-        disabled={disabled}
-        className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24 bg-white text-gray-900"
-      >
-        <option value="" className="text-gray-500">{placeholder}</option>
-        {years.map((yearOption) => (
-          <option key={yearOption} value={yearOption} className="text-gray-900">
-            {yearOption}
-          </option>
-        ))}
-      </select>
+      <div className="relative" ref={yearDropdownRef}>
+        <button
+          type="button"
+          onClick={() => !disabled && setYearDropdownOpen(!yearDropdownOpen)}
+          disabled={disabled}
+          className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent w-24 bg-white text-gray-900 flex items-center justify-between"
+        >
+          <span>{year || placeholder}</span>
+          <ChevronDown className="w-4 h-4 text-gray-500" />
+        </button>
+        
+        {yearDropdownOpen && !disabled && (
+          <div className="absolute z-10 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto min-w-[250px] scroll-smooth">
+            {/* Gradient indicator for scrollable content */}
+            <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none z-10"></div>
+            <div className="grid grid-cols-3 gap-2 p-2">
+              {years.map((yearOption) => (
+                <button
+                  key={yearOption}
+                  type="button"
+                  onClick={() => handleYearSelect(yearOption)}
+                  className="px-2 py-1 text-sm text-gray-900 hover:bg-blue-50 hover:text-blue-600 rounded transition-colors text-center"
+                >
+                  {yearOption}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

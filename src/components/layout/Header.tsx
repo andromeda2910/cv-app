@@ -101,10 +101,10 @@ export const Header = ({ onHomeClick, showHomeButton = true, onCreateCoverLetter
               </button>
 
               {langOpen && (
-                <div className="absolute right-0 mt-2 w-44 rounded-xl border border-gray-200 bg-white shadow-lg p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute right-0 mt-2 w-52 rounded-xl border border-gray-200 bg-white shadow-lg p-1.5 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <button
                     onClick={() => { setLanguage('en'); setLangOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${language === 'en'
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${language === 'en'
                       ? 'bg-blue-50 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-50'
                       }`}
@@ -119,7 +119,7 @@ export const Header = ({ onHomeClick, showHomeButton = true, onCreateCoverLetter
                   </button>
                   <button
                     onClick={() => { setLanguage('id'); setLangOpen(false); }}
-                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${language === 'id'
+                    className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors text-left ${language === 'id'
                       ? 'bg-blue-50 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-50'
                       }`}

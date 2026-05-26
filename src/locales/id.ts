@@ -302,6 +302,23 @@ const id: Translations = {
         back: 'Kembali',
     },
 
+    // Upload CV Page
+    uploadCv: {
+        title: 'Unggah CV Anda',
+        description: 'Unggah CV yang ada untuk memulai. Kami akan mengekstrak informasinya dan Anda dapat mengeditnya.',
+        dragAndDrop: 'Seret dan lepas CV Anda di sini',
+        orClickToBrowse: 'atau klik untuk menjelajahi (PDF, TXT, DOC, DOCX)',
+        processing: 'Memproses CV Anda...',
+        extractingInfo: 'Mengekstrak informasi',
+        fileUploaded: 'File diunggah',
+        tip: 'Tip: Untuk hasil terbaik, unggah CV yang diformat dengan baik. Kami akan mengekstrak informasi kunci secara otomatis.',
+        continueToEditor: 'Lanjut ke Editor',
+        errors: {
+            invalidFile: 'Silakan unggah file PDF atau teks',
+            failedToRead: 'Gagal membaca CV. Pastikan file dapat dibaca.',
+        },
+    },
+
     // Template Tags
     templateTags: {
         classic: 'Klasik',

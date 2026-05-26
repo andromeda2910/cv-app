@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
@@ -10,9 +10,28 @@ import {
   Globe,
   Zap,
   Check,
-  FileText
+  FileText,
+  ChevronUp
 } from 'lucide-react';
 import { useTranslation } from '@/lib/useTranslation';
+import { useLanguageStore } from '@/stores/languageStore';
+
+const UKFlag = () => (
+  <svg viewBox="0 0 640 480" className="w-5 h-5 rounded-full border border-gray-200">
+    <path fill="#012169" d="M0 0h640v480H0z" />
+    <path fill="#FFF" d="m75 0 244 181L562 0h78v62L400 241l240 178v61h-80L320 301 81 480H0v-60l239-178L0 64V0h75z" />
+    <path fill="#C8102E" d="m424 281 216 159v40L369 281h55zM226 195 0 28v-9l243 181h-17zM0 452l213-157h55L0 479v-27zm640-425L418 195h22L640 31V27z" />
+    <path fill="#FFF" d="M241 0v480h160V0H241zM0 160v160h640V160H0z" />
+    <path fill="#C8102E" d="M281 0v480h80V0h-80zM0 200v80h640v-80H0z" />
+  </svg>
+);
+
+const IDFlag = () => (
+  <svg viewBox="0 0 640 480" className="w-5 h-5 rounded-full border border-gray-200">
+    <path fill="#E70011" d="M0 0h640v240H0z" />
+    <path fill="#FFF" d="M0 240h640v240H0z" />
+  </svg>
+);
 
 interface LandingPageProps {
   onStart: () => void;
@@ -21,6 +40,20 @@ interface LandingPageProps {
 
 export const LandingPage = ({ onStart, onCreateCoverLetter }: LandingPageProps) => {
   const { t } = useTranslation();
+  const { language, setLanguage } = useLanguageStore();
+  const [langDropdownOpen, setLangDropdownOpen] = useState(false);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (langDropdownRef.current && !langDropdownRef.current.contains(e.target as Node)) {
+        setLangDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
 
   return (
     <div className="min-h-screen bg-white text-gray-900 selection:bg-blue-100 font-sans overflow-x-hidden relative">
@@ -108,7 +141,7 @@ export const LandingPage = ({ onStart, onCreateCoverLetter }: LandingPageProps) 
             >
               <Button
                 onClick={onStart}
-                className="h-14 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-base sm:text-lg font-bold shadow-xl shadow-blue-200 transition-all hover:scale-105 active:scale-95 group"
+                className="h-14 px-8 rounded-full bg-blue-600 hover:bg-blue-700 text-base sm:text-lg font-bold shadow-xl shadow-blue-200 transition-all hover:scale-105 active:scale-95 group ring-2 ring-blue-200/50 hover:ring-blue-300/60"
               >
                 {t.landing.startBuildingNow}
                 <ArrowRight className="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
@@ -344,9 +377,13 @@ export const LandingPage = ({ onStart, onCreateCoverLetter }: LandingPageProps) 
             <div className="text-xs sm:text-sm text-gray-500 text-center sm:text-left">
               © {new Date().getFullYear()} CVCraft. {t.landing.footerBuiltFor}
             </div>
-            <div className="flex gap-6">
-              <a href="#" className="text-gray-400 hover:text-blue-600 transition-colors"><Globe className="w-5 h-5" /></a>
-            </div>
+            <button 
+              onClick={() => setLanguage(language === 'en' ? 'id' : 'en')}
+              className="flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-4 py-1.5 shadow-sm text-sm text-[#1d58fa] hover:bg-white/20 transition-all duration-300"
+            >
+              {language === 'en' ? <UKFlag /> : <IDFlag />}
+              <span>{language === 'en' ? 'English' : 'Indonesia'}</span>
+            </button>
           </div>
         </footer>
       </div>
