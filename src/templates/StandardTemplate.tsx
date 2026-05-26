@@ -46,9 +46,11 @@ export const StandardTemplate = () => {
                         <h1 className="text-4xl font-bold uppercase tracking-wider text-gray-900 mb-2">
                             {personalInfo.fullName || 'Your Name'}
                         </h1>
-                        <p className="text-xl text-gray-600 font-medium mb-4">
-                            {personalInfo.jobTitle || 'Professional Role'}
-                        </p>
+                        {personalInfo.jobTitle && (
+                            <p className="text-xl text-gray-600 font-medium mb-4">
+                                {personalInfo.jobTitle}
+                            </p>
+                        )}
                     </div>
                     {personalInfo.photo && (
                         <div className="w-28 h-28 flex-shrink-0 rounded-md overflow-hidden border-2 border-gray-800">
