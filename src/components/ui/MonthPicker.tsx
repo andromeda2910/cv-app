@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useTranslation } from '@/lib/useTranslation';
 import { ChevronDown } from 'lucide-react';
 
@@ -69,15 +70,43 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
 
   // Custom dropdown state
   const [yearDropdownOpen, setYearDropdownOpen] = useState(false);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const yearDropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Close dropdown on outside click
+  // Calculate dropdown position when opened
+  useEffect(() => {
+    if (yearDropdownOpen && buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+      
+      setDropdownPosition({
+        top: rect.bottom + scrollTop,
+        left: rect.left + scrollLeft
+      });
+    }
+  }, [yearDropdownOpen]);
+
+  // Close dropdown on outside click (but not when clicking scrollbar or inside dropdown)
   useEffect(() => {
     const handler = (e: MouseEvent) => {
-      if (yearDropdownRef.current && !yearDropdownRef.current.contains(e.target as Node)) {
-        setYearDropdownOpen(false);
+      const target = e.target as Node;
+      
+      // Don't close if clicking inside the dropdown
+      if (yearDropdownRef.current && yearDropdownRef.current.contains(target)) {
+        return;
       }
+      
+      // Don't close if clicking the button
+      if (buttonRef.current && buttonRef.current.contains(target)) {
+        return;
+      }
+      
+      // Close if clicking outside both
+      setYearDropdownOpen(false);
     };
+    
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
@@ -104,8 +133,9 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
         ))}
       </select>
       
-      <div className="relative" ref={yearDropdownRef}>
+      <div className="relative">
         <button
+          ref={buttonRef}
           type="button"
           onClick={() => !disabled && setYearDropdownOpen(!yearDropdownOpen)}
           disabled={disabled}
@@ -115,11 +145,16 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
           <ChevronDown className="w-4 h-4 text-gray-500" />
         </button>
         
-        {yearDropdownOpen && !disabled && (
-          <div className="absolute z-10 mt-1 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto min-w-[250px] scroll-smooth">
-            {/* Gradient indicator for scrollable content */}
-            <div className="absolute bottom-0 left-0 right-0 h-4 bg-gradient-to-t from-white to-transparent pointer-events-none z-10"></div>
-            <div className="grid grid-cols-3 gap-2 p-2">
+        {yearDropdownOpen && !disabled && createPortal(
+          <div 
+            ref={yearDropdownRef}
+            className="fixed z-50 bg-white border border-gray-300 rounded-md shadow-lg max-h-60 overflow-y-auto min-w-[250px] scroll-smooth"
+            style={{ 
+              top: `${dropdownPosition.top}px`,
+              left: `${dropdownPosition.left}px`
+            }}
+          >
+            <div className="grid grid-cols-3 gap-2 p-2 pb-4">
               {years.map((yearOption) => (
                 <button
                   key={yearOption}
@@ -131,7 +166,8 @@ export const MonthPicker: React.FC<MonthPickerProps> = ({
                 </button>
               ))}
             </div>
-          </div>
+          </div>,
+          document.body
         )}
       </div>
     </div>

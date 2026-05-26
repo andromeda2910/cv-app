@@ -150,7 +150,7 @@ export const CvForm = () => {
       />
 
       {/* Form Content */}
-      <div className="flex-1 overflow-y-auto p-10">
+      <div className="flex-1 overflow-y-auto overflow-x-visible p-10">
         <div className="max-w-4xl mx-auto text-lg">
           <CurrentComponent />
         </div>
